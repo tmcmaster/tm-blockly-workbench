@@ -1,0 +1,34 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`tm-blockly`
+Polymer web component of the Blockly editor
+
+@demo demo/index.html 
+-->
+
+<dom-module id="tm-blockly">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <h2>Hello [[prop1]]</h2>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'tm-blockly',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'tm-blockly',
+        },
+      },
+
+    });
+  </script>
+</dom-module>
