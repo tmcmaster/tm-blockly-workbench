@@ -1,34 +1,74 @@
-<link rel="import" href="../polymer/polymer.html">
-
-<!--
-`tm-blockly`
-Polymer web component of the Blockly editor
-
-@demo demo/index.html 
--->
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="blockly.html">
 
 <dom-module id="tm-blockly">
   <template>
     <style>
       :host {
-        display: block;
+        display: inline-block;
+        width:1200px;
+        border:solid green 3px;
       }
+      #blocklyArea { width:100%;height:100%; }
+      #blocklyDiv { height:100%; position: absolute; }
     </style>
-    <h2>Hello [[prop1]]</h2>
+
+    <div id="blocklyArea"></div>
+    <div id="blocklyDiv"></div>
+
+    <xml id="toolbox" style="display: none">
+      <category name="Control">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="controls_repeat_ext"></block>
+    </category>
+    <category name="Maths">
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+    </category>
+    <category name="Text">
+      <block type="text"></block>
+      <block type="text_print"></block>
+    </xml>
   </template>
 
   <script>
-    Polymer({
-
-      is: 'tm-blockly',
-
-      properties: {
-        prop1: {
-          type: String,
-          value: 'tm-blockly',
+    (function(Blockly) {
+      Polymer({
+        is: 'tm-blockly',
+        properties: {
+          prop1: {
+            type: String,
+            value: 'tm-blockly'
+          },
         },
-      },
-
-    });
+        ready: function() {
+          var blocklyArea = this.$.blocklyArea;
+          var blocklyDiv = this.$.blocklyDiv;
+          var toolbox = this.$.toolbox;
+          var media = '../blockly/media/';
+          var workspace = Blockly.inject(blocklyDiv,{media:media,toolbox:toolbox});
+          setTimeout(function() {
+            var onresize = function(e) {
+              var element = blocklyArea;
+              var x = 0;
+              var y = 0;
+              do {
+                x += element.offsetLeft;
+                y += element.offsetTop;
+                element = element.offsetParent;
+              } while (element);
+              blocklyDiv.style.left = x + 'px';
+              blocklyDiv.style.top = y + 'px';
+              blocklyDiv.style.width = blocklyArea.offsetWidth + 'px';
+              blocklyDiv.style.height = blocklyArea.offsetHeight + 'px';
+            };
+            window.addEventListener('resize', onresize, false);
+            onresize();
+            Blockly.svgResize(workspace);
+          },100);
+        }
+      });
+    })(Blockly);
   </script>
 </dom-module>
