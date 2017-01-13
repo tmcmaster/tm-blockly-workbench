@@ -16,20 +16,7 @@
     <div id="blocklyArea"></div>
     <div id="blocklyDiv"></div>
 
-    <xml id="toolbox" style="display: none">
-      <category name="Control">
-      <block type="controls_if"></block>
-      <block type="logic_compare"></block>
-      <block type="controls_repeat_ext"></block>
-    </category>
-    <category name="Maths">
-      <block type="math_number"></block>
-      <block type="math_arithmetic"></block>
-    </category>
-    <category name="Text">
-      <block type="text"></block>
-      <block type="text_print"></block>
-    </xml>
+    <content id="toolbox" select="xml.toolbox"></content>
   </template>
 
   <script>
@@ -45,7 +32,7 @@
         ready: function() {
           var blocklyArea = this.$.blocklyArea;
           var blocklyDiv = this.$.blocklyDiv;
-          var toolbox = this.$.toolbox;
+          var toolbox = this.getContentChildren('#toolbox')[0];
           var media = '../blockly/media/';
           var workspace = Blockly.inject(blocklyDiv,{media:media,toolbox:toolbox});
           setTimeout(function() {

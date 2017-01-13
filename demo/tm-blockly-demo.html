@@ -15,7 +15,22 @@
     <div>
       <h3>tm-blockly Demo</h3>
 
-      <tm-blockly></tm-blockly>
+      <tm-blockly>
+        <xml class="toolbox" style="display: none">
+          <category name="Control">
+          <block type="controls_if"></block>
+          <block type="logic_compare"></block>
+          <block type="controls_repeat_ext"></block>
+        </category>
+        <category name="Maths">
+          <block type="math_number"></block>
+          <block type="math_arithmetic"></block>
+        </category>
+        <category name="Text">
+          <block type="text"></block>
+          <block type="text_print"></block>
+        </xml>
+      </tm-blockly>
     </div>
 
   </body>
