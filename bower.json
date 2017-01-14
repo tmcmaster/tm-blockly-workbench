@@ -1,6 +1,6 @@
 {
-  "name": "tm-blockly",
-  "description": "Polymer web component of the Blockly editor",
+  "name": "tm-blockly-workbench",
+  "description": "Polymer web component of the Blockly workbench",
   "main": "tm-blockly.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0"
