@@ -4,6 +4,7 @@
     <title>tm-blockly demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <link rel="import" href="../bower_components/polymer/polymer.html">
     <link rel="import" href="../tm-blockly-workbench.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
@@ -14,23 +15,32 @@
 
     <div>
       <h3>tm-blockly Demo</h3>
-      <tm-blockly-workbench>
+      <tm-blockly-workbench id="workbench">
         <xml class="toolbox" style="display: none">
           <category name="Control">
-          <block type="controls_if"></block>
-          <block type="logic_compare"></block>
-          <block type="controls_repeat_ext"></block>
-        </category>
-        <category name="Maths">
-          <block type="math_number"></block>
-          <block type="math_arithmetic"></block>
-        </category>
-        <category name="Text">
-          <block type="text"></block>
-          <block type="text_print"></block>
+            <block type="controls_if"></block>
+            <block type="logic_compare"></block>
+            <block type="controls_repeat_ext"></block>
+          </category>
+          <category name="Maths">
+            <block type="math_number"></block>
+            <block type="math_arithmetic"></block>
+          </category>
+          <category name="Text">
+            <block type="text"></block>
+            <block type="text_print"></block>
+          </category>
         </xml>
       </tm-blockly-workbench>
+      <button onclick="testGetCode()">Test Get Code</button>
     </div>
 
+    <script>
+      function testGetCode() {
+        const workbench = document.getElementById('workbench');
+        const code = workbench.getCode();
+        console.log(code);
+      }
+    </script>
   </body>
 </html>
