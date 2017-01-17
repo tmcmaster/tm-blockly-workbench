@@ -25,7 +25,7 @@ Polymer web component to encapsulate the Blockly workbench.
   </template>
 
   <script>
-    (function(Blockly) {
+    (function(Polymer,Blockly) {
       Polymer({
         is: 'tm-blockly-workbench',
         properties: {
@@ -65,6 +65,6 @@ Polymer web component to encapsulate the Blockly workbench.
           },100);
         }
       });
-    })(Blockly);
+    })(Polymer, Blockly);
   </script>
 </dom-module>
