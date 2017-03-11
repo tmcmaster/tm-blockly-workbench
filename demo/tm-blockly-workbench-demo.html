@@ -1,19 +1,22 @@
 <!doctype html>
 <html>
   <head>
-    <title>tm-blockly demo</title>
+    <title>tm-blockly-workbench demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
     <link rel="import" href="../bower_components/polymer/polymer.html">
     <link rel="import" href="../tm-blockly-workbench.html">
 
     <style is="custom-style" include="demo-pages-shared-styles">
+      tm-blockly-workbench,textarea,button {clear:both;float:left}
       tm-blockly-workbench {width:800px;height:400px}
+      textarea {width:800px;height:300px;}
+      button {margin-top:10px; margin-bottom:10px;}
     </style>
   </head>
   <body>
     <div>
-      <h3>tm-blockly Demo</h3>
+      <h3>tm-blockly-workbench Demo</h3>
       <tm-blockly-workbench id="workbench">
         <xml class="toolbox" style="display: none">
           <category name="Control">
@@ -62,6 +65,9 @@
           </category>
           <category name="CSS">
             <block type="tm_css_block"></block>
+            <block type="tm_css_class_selector"></block>
+            <block type="tm_selector_class"></block>
+            <block type="tm_css_border"></block>
           </category>
           <category name="JavaScript">
             <block type="text_print"></block>
@@ -73,12 +79,15 @@
         </xml>
       </tm-blockly-workbench>
       <button onclick="testGetCode()">Test Get Code</button>
+      <textarea id="preview"></textarea>
     </div>
     <script>
       function testGetCode() {
         const workbench = document.getElementById('workbench');
         const code = workbench.getCode();
         console.log(code);
+        const textarea = document.getElementById('preview');
+        textarea.value = code
       }
     </script>
   </body>

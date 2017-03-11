@@ -1,10 +1,23 @@
 <link rel="import" href="blockly.html">
 
 <!--
-`tm-blockly`
-Polymer web component to encapsulate the Blockly workbench.
+`tm-blockly-workbench`
+Polymer Web Component to encapsulate the Blockly workbench.
 
-@demo demo/tm-blockly-demo.html
+Example:
+
+<tm-blockly-workbench>
+  <xml class="toolbox" style="display: none">
+    <category name="Control">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="controls_repeat_ext"></block>
+    </category>
+  </xml>
+
+@demo demo/tm-blockly-workbench-demo.html
+
+</tm-blockly-workbench>
 -->
 <dom-module id="tm-blockly-workbench">
   <template>
@@ -29,11 +42,16 @@ Polymer web component to encapsulate the Blockly workbench.
       Polymer({
         is: 'tm-blockly-workbench',
         properties: {
+          /* This is not being used at the moment */
           prop1: {
-            type: String,
-            value: 'tm-blockly'
+            type: Array,
+            value: []
           },
         },
+        /**
+          Generate and return the HTML/CSS/Javaacript code that represents the blocks.
+          @return {String} the HTML/CSS/Javaacript code that represents the blocks.
+        */
         getCode: function() {
           return Blockly.JavaScript.workspaceToCode(this.workspace);
         },

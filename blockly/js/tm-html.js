@@ -2,6 +2,7 @@
 
 goog.require('Blockly.Blocks');
 
+
 Blockly.Blocks.HtmlAttrs = {
   'tm_attr_id' : { name:'ID', label:'id', check: 'String' },
   'tm_attr_name' : { name:'NAME', label:'name', check: 'String' },
@@ -33,21 +34,21 @@ Blockly.Blocks.HtmlElements = {
 
 //     this.appendDummyInput().appendField('CSS').appendField(new Blockly.FieldTextInput('selector'));
 
-Blockly.Blocks['tm_css_block'] = {
-  init: function() {
-    this.appendValueInput("SELECTORS")
-        .setCheck("SELECTOR")
-        .appendField("CSS");
-    this.appendStatementInput("STYLING")
-        .setCheck("STYLE");
-    this.setPreviousStatement(true);
-    this.setNextStatement(true);
-    this.setInputsInline(false);
-    this.setColour(160);
-    this.setTooltip('');
-    this.setHelpUrl('');
-  }
-};
+// Blockly.Blocks['tm_css_block'] = {
+//   init: function() {
+//     this.appendValueInput("SELECTORS")
+//         .setCheck("SELECTOR")
+//         .appendField("CSS");
+//     this.appendStatementInput("STYLING")
+//         .setCheck("STYLE");
+//     this.setPreviousStatement(true);
+//     this.setNextStatement(true);
+//     this.setInputsInline(false);
+//     this.setColour(160);
+//     this.setTooltip('');
+//     this.setHelpUrl('');
+//   }
+// };
 
 Blockly.Blocks['tm_attributes'] = {
   init: function() {
@@ -105,7 +106,7 @@ function getValue(block, name) {
   var value = Blockly.JavaScript.valueToCode(block, name, Blockly.JavaScript.ORDER_ATOMIC);
   if (value.length == 0) {
     return undefined;
-  } else if (value.substring(1,1) == "'") {
+  } else if (value.substring(0,1) == "'") {
     return value.substring(1,value.length-1);
   } else {
     return value;
@@ -253,3 +254,111 @@ function createElementBlock(type, name, label) {
     }
   };
 }
+
+// This is a scratch work inprogress saveConnections
+
+Blockly.Blocks['tm_css_block'] = {
+  init: function() {
+    this.appendValueInput("CSS_SELECTOR")
+        .setCheck(["CSS_CLASS_SELECTOR", "CSS_ID_SELECTOR", "CSS_TYPE_SELECTOR", "CSS_SELECTOR_SET"])
+        .appendField("CSS_BLOCK");
+    this.appendStatementInput("NAME")
+        .setCheck("CSS_DECLARATION");
+    this.setInputsInline(false);
+    this.setPreviousStatement(true, "CSS_BLOCK");
+    this.setNextStatement(true, "CSS_BLOCK");
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+Blockly.JavaScript['tm_css_block'] = function(block) {
+  var value_css_selector = Blockly.JavaScript.valueToCode(block, 'CSS_SELECTOR', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'NAME');
+  //var className = block.childBlocks_[0].inputList[0].fieldRow[1].text_;
+  //var className = block.getFieldValue('CSS_CLASS_SELECTOR_VALUE');
+  //var className = Blockly.JavaScript.valueToCode(block, 'CSS_CLASS_SELECTOR_VALUE', Blockly.JavaScript.ORDER_ADDITION) || 'FFFF';
+  var className = block.childBlocks_[0].getFieldValue('CSS_CLASS_SELECTOR_VALUE') || 'AAA';
+  //var className = getInputValue(block, 'tm_selector_class', )
+  console.log('value_css_selector: ' + value_css_selector);
+  console.log('statements_name: ' + statements_name);
+  var code = '.' + className + ' {\n' + statements_name + '\n}';
+  return code;
+};
+
+function getInputValue(block, inputType, inputName) {
+  for (var i in block.childBlocks_) {
+    if (block.childBlocks_[i].type === inputType)
+    {
+      var inputBlock = block.childBlocks_[i];
+      return inputBlock.getFieldValue(inputName);
+    }
+  }
+  return undefined;
+}
+
+Blockly.Blocks['tm_css_class_selector'] = {
+  init: function() {
+    this.appendValueInput("CSS_CLASS_SELECTOR")
+        .setCheck("String")
+        .appendField("class selector");
+    this.setInputsInline(true);
+    this.setOutput(true, "CSS_CLASS_SELECTOR");
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+Blockly.JavaScript['tm_css_class_selector'] = function(block) {
+  var value_css_class_selector = Blockly.JavaScript.valueToCode(block, 'CSS_CLASS_SELECTOR', Blockly.JavaScript.ORDER_ATOMIC);
+  console.log('value_css_class_selector: ' + value_css_class_selector);
+  var code = '.aaa';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.Blocks['tm_selector_class'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("class")
+        .appendField(new Blockly.FieldTextInput(""), "CSS_CLASS_SELECTOR_VALUE");
+    this.setOutput(true, "CSS_CLASS_SELECTOR");
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+Blockly.JavaScript['tm_selector_class'] = function(block) {
+  var text_name = block.getFieldValue('CSS_CLASS_SELECTOR_VALUE');
+  console.log('text_name: ' + text_name);
+  var code = '.aa';
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.Blocks['tm_css_border'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("border:")
+        .appendField(new Blockly.FieldDropdown([["solid","solid"], ["dashed","dashed"], ["dotted","dotted"]]), "TYPE")
+        .appendField(new Blockly.FieldDropdown([["red","red"], ["blue","blue"], ["green","green"]]), "COLOR")
+        .appendField(new Blockly.FieldTextInput("1"), "SIZE");
+    this.appendDummyInput()
+        .appendField("px");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+    this.setTooltip('');
+    this.setHelpUrl('');
+  }
+};
+
+Blockly.JavaScript['tm_css_border'] = function(block) {
+  var type = block.getFieldValue('TYPE');
+  var color = block.getFieldValue('COLOR');
+  var size = block.getFieldValue('SIZE');
+  var code = 'border: ' + type + ' ' + color + ' ' + size + ' px;\n';
+  return code;
+};
